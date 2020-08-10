@@ -39,9 +39,9 @@
         warn: no
 
   roles:
-    - java-1.8.0-openjdk
-    - geerlingguy.pip
-    - geerlingguy.docker
+    - role: geerlingguy.pip
+    - role: geerlingguy.docker
+    - role: java-1.8.0-openjdk
 
   tasks:   
     - name: install jenkins
