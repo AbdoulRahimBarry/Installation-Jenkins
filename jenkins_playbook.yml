@@ -1,4 +1,4 @@
-- hosts: server
+- hosts: localhost
   gather_facts: true
   become: true
 
@@ -25,8 +25,8 @@
 
     - name: install wget
       yum:
-      name: wget
-      state: installed
+        name: wget
+        state: installed
 
     - name: Using wget
       shell: wget -O /etc/yum.repos.d/jenkins.repo https://pkg.jenkins.io/redhat-stable/jenkins.repo
@@ -41,13 +41,16 @@
   roles:
     - role: geerlingguy.pip
     - role: geerlingguy.docker
-    - role: java-1.8.0-openjdk
+    - role: geerlingguy.java
+      when: "ansible_os_family == 'RedHat'"
+      java_packages:
+        - java-1.8.0-openjdk
 
   tasks:   
     - name: install jenkins
       yum:
-      name: jenkins
-      state: installed
+        name: jenkins
+        state: installed
 
     - name: usermod  jenkins
       shell: usermod -aG docker jenkins
@@ -61,5 +64,10 @@
 
     - name: Enable service jenkins
       service:
-      name: jenkins
-      enabled: yes
+        name: jenkins
+        enabled: yes
+
+    - name: init password jenkin
+      shell: cat /var/lib/jenkins/secrets/initialAdminPassword
+      changed_when: false
+      register: result
