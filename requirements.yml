@@ -6,3 +6,6 @@
 
 # installation java via geerlingguy role
 - src: geerlingguy.java
+
+# installation git via geerlingguy role
+- src: geerlingguy.git
