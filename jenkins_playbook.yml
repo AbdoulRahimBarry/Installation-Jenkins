@@ -1,0 +1,65 @@
+- hosts: server
+  gather_facts: true
+  become: true
+
+  vars:
+    jenkins_hostname: localhost
+
+    java_packages:
+      - java-1.8.0-openjdk
+
+    pip_install_packages:
+      - name: docker
+
+  pre_tasks:
+    - name: upgrade all packages
+      yum:
+        name: '*'
+        state: latest
+        exclude: kernel*,foo*
+
+    - name: epel-release
+      yum:
+        name: epel-release
+        state: installed
+
+    - name: install wget
+      yum:
+      name: wget
+      state: installed
+
+    - name: Using wget
+      shell: wget -O /etc/yum.repos.d/jenkins.repo https://pkg.jenkins.io/redhat-stable/jenkins.repo
+      args:
+        warn: no
+
+    - name: Using rmp
+      shell: rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io.key
+      args:
+        warn: no
+
+  roles:
+    - java-1.8.0-openjdk
+    - geerlingguy.pip
+    - geerlingguy.docker
+
+  tasks:   
+    - name: install jenkins
+      yum:
+      name: jenkins
+      state: installed
+
+    - name: usermod  jenkins
+      shell: usermod -aG docker jenkins
+      args:
+        warn: no
+
+    - name: Start service jenkins
+      service:
+        name: jenkins
+        state: started
+
+    - name: Enable service jenkins
+      service:
+      name: jenkins
+      enabled: yes
