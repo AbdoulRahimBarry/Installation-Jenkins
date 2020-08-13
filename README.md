@@ -5,7 +5,7 @@
 
 ## Requirements
 
-* install git 
+* install git
 * install ansible
 
 Go to the to clone the repository [Installation jenkins](https://github.com/AbdoulRahimBarry/Installation-Jenkins.git)
@@ -17,3 +17,4 @@ cd Installation-Jenkins
 ansible-galaxy install -r requirements.yml
 ansible-playbook jenkins_playbook.yml
 ```
+Connect to the jenkins server `http://@IP:8080`
