@@ -13,7 +13,7 @@ Go to the to clone the repository [Installation jenkins](https://github.com/Abd
 Run the ansible command
 
 ```
-cd Installation-Jenkins
+cd installation-Jenkins
 ansible-galaxy install -r requirements.yml
 ansible-playbook jenkins_playbook.yml
 ```
